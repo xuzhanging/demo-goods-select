@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .top {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        input {
+            padding-left: 5px;
+            width: 6%;
+            height: 24px;
+            outline: none;
+        }
+        table {
+            margin: 0 auto;
+            width: 30%;
+            border: 1px solid #000;
+        }
+        table tbody td{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        按照价格查询：<input type="text" id="start"> - <input type="text" id="end">
+        <button id="search">搜索</button>
+        按照商品名称查询: <input type="text" id="pname">
+        <button id="select">查询</button>
+    </div>
+    <div class="bottom">
+        <table>
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>产品名称</th>
+                    <th>价格</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var data = [{
+                id: 1,
+                pname: '小米',
+                price: 3999
+            }, {
+                id: 2,
+                pname: 'oppo',
+                price: 999
+            }, {
+                id: 3,
+                pname: '荣耀',
+                price: 1299
+            }, {
+                id: 4,
+                pname: '华为',
+                price: 1999
+            }
+        ];
+        var tbody = document.querySelector('tbody');
+        data.forEach(function(value) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = '<td>' + value.id + '</td><td>' + value.pname + '</td><td>' + value.price + '</td>';
+            tbody.appendChild(tr);
+        })
+        var start = document.querySelector('#start');
+        var end = document.querySelector('#end');
+        var search = document.querySelector('#search');
+        search.addEventListener('click', function() {
+            tbody.innerHTML = '';
+            var arr = data.filter(function(value) {
+                return value.price >= start.value && value.price <= end.value;
+            });
+            // console.log(arr);
+            arr.forEach(function(value) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + value.id + '</td><td>' + value.pname + '</td><td>' + value.price + '</td>';
+                tbody.appendChild(tr);
+            })
+        });
+        var p_name = document.querySelector('#pname');
+        var select = document.querySelector('#select');
+        select.addEventListener('click', function() {
+            tbody.innerHTML = '';
+            var newArr = [];
+            data.some(function(value) {
+                if(value.pname === p_name.value) {
+                    // console.log(value);
+                    newArr.push(value);
+                    return true;
+                }
+            });
+            newArr.forEach(function(value) {
+                var tr = document.createElement('tr');
+                tr.innerHTML = '<td>' + value.id + '</td><td>' + value.pname + '</td><td>' + value.price + '</td>';
+                tbody.appendChild(tr);
+            })
+        });
+    </script>
+</body>
+</html>
